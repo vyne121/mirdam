@@ -1,23 +1,15 @@
-import logo from './logo.svg';
+import image1 from './images/IMG_3959.jpg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import {Image} from "react-bootstrap";
+import DynamicImage from "./components/DynamicImage";
+
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <DynamicImage src={image1}/>
     </div>
   );
 }

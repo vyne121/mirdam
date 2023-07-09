@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.dynamic-image {
+  width: 100%; /* Set the image width to 100% of its parent container */
+}
+
+@media (min-width: 768px) {
+  /* On devices with a minimum width of 768px (PC), apply additional styling */
+  .dynamic-image {
+    height: 0; /* Set the initial height to 0 to maintain the aspect ratio */
+    padding-top: 56.25%; /* Set the padding-top based on a 16:9 aspect ratio (9 / 16 * 100) */
+    position: relative;
+  }
+
+  .dynamic-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Set the height to 100% to fill the container */
+    object-fit: cover; /* Crop the image to fit the container */
+  }
+}
