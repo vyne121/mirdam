@@ -1,60 +1,89 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* App.css */
+.dynamic-image-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 56.25%; /* Set the padding-top based on a 16:9 aspect ratio (9 / 16 * 100) */
+  overflow: hidden;
 }
 
 .dynamic-image {
-  width: 100%; /* Set the image width to 100% of its parent container */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-@media (min-width: 768px) {
-  /* On devices with a minimum width of 768px (PC), apply additional styling */
-  .dynamic-image {
-    height: 0; /* Set the initial height to 0 to maintain the aspect ratio */
-    padding-top: 56.25%; /* Set the padding-top based on a 16:9 aspect ratio (9 / 16 * 100) */
-    position: relative;
-  }
+.side-menu-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100vh;
+  object-fit: cover;
+}
 
-  .dynamic-image img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; /* Set the height to 100% to fill the container */
-    object-fit: cover; /* Crop the image to fit the container */
-  }
+.side-menu-container.visible {
+  width: 15%;
+  transition: width 1500ms ease;
+}
+
+.side-menu-button {
+  position: absolute;
+  top: 2%;
+  left: 1%;
+  width: 6vh;
+  height: 6vh;
+  object-fit: cover;
+}
+
+.side-menu-button-shifted {
+  top: 2%;
+  left: 1%;
+  width: 6vh;
+  height: 6vh;
+}
+
+.side-menu-button-icon {
+  width: 5vh;
+  height: 5vh;
+}
+
+@font-face {
+  font-family: 'Geraldin';
+  src: url('./fonts/geraldin.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Geraldin', sans-serif;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-size: 20vh;
+  font-family: 'Geraldin', sans-serif;
+  font-weight: bold;
+  padding: 10vh;
+}
+
+.text-overlay h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 15vh;
+  font-family: Geraldin;
+}
+
+.text-overlay p {
+  margin-bottom: 0;
+}
+
+.text-outline {
+  text-shadow: -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000, 1px 1px 2px #000;
 }

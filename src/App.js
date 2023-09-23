@@ -1,17 +1,35 @@
-import image1 from './images/IMG_3959.jpg';
+// App.js
+import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import {Image} from "react-bootstrap";
-import DynamicImage from "./components/DynamicImage";
-
-
+import SideMenu from "./components/SideMenu";
+import MainPage from "./components/MainPage";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import MusicRequestPage from "./components/MusicRequestPage";
+import PhotoSendPage from "./components/PhotoSendPage";
 
 function App() {
-  return (
-    <div className="App">
-        <DynamicImage src={image1}/>
-    </div>
-  );
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+
+    return (
+        <>
+            <Router>
+                <Routes>
+                    <Route path="/musicRequest" element={<MusicRequestPage/>}/>
+                    <Route path="/photoSend" element={<PhotoSendPage/>}/>
+                    <Route path="/" element={ <MainPage/>}/>
+                </Routes>
+                <SideMenu/>
+            </Router>
+        </>
+    )
+
 }
 
 export default App;
