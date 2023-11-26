@@ -14,8 +14,9 @@ const SideMenu = () => {
             {
                 menuDisplayed
                     ? <>
-                        <Container id={"sideMenu"}
-                                   className={"bg-light bg-opacity-25 side-menu-container visible"}>
+                        <Container
+                            id={"sideMenu"}
+                            className={"bg-light bg-opacity-25 side-menu-container visible"}>
                             <Container className={"pt-3 h-100"}>
                                 <Button
                                     className={"side-menu-button-shifted btn-light opacity-75 border-1 shadow-lg w-10 font-monospace mb-2 shadow-lg d-flex align-items-center justify-content-center"}

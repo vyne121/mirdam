@@ -8,31 +8,58 @@ import image5 from "../images/IMG5.jpg";
 import React from "react";
 
 const MainPage = () => {
+    let isMobile = window.innerWidth <= 768;
+
+    let images = [
+        {
+            "src": image1,
+        },
+        {
+            "src": image2
+        },
+        {
+            "src": image3,
+        },
+        {
+            "src": image4,
+        },
+        {
+            "src": image5
+        }
+        ]
+
+    function desktopView() {
+        return (
+            <>
+                <Carousel
+                    className={"fullScreen"}
+                    pause={false}
+                    indicators={false}
+                    interval={5000}
+                    keyboard={false}
+                    touch={true}
+                    controls={false}
+                    data-bs-theme="dark">
+                    {images.map(item => (
+                        <Carousel.Item>
+                            <DynamicImage src={item.src}/>
+                        </Carousel.Item>
+                        ))}
+                </Carousel>
+            </>
+        );
+    }
+
+    function mobilView() {
+        return (
+            <>
+                Mobil
+            </>
+        );
+    }
+
     return (<>
-        <Carousel
-            pause={false}
-            indicators={false}
-            interval={5000}
-            keyboard={false}
-            touch={true}
-            controls={false}
-            data-bs-theme="dark">
-            <Carousel.Item>
-                <DynamicImage src={image1}/>
-            </Carousel.Item>
-            <Carousel.Item>
-                <DynamicImage src={image2}/>
-            </Carousel.Item>
-            <Carousel.Item>
-                <DynamicImage src={image3}/>
-            </Carousel.Item>
-            <Carousel.Item>
-                <DynamicImage src={image4}/>
-            </Carousel.Item>
-            <Carousel.Item>
-                <DynamicImage src={image5}/>
-            </Carousel.Item>
-        </Carousel>
+        {isMobile ? mobilView() : desktopView()}
     </>)
 }
 
