@@ -12,13 +12,13 @@ const DynamicImage = ({src, offset}) => {
                 <h3 className={"font-fancy text-outline-h3 text-outline"}>Pilisvörösvár</h3>
             </div>
             <div className={"bottom-right-overlay"}>
-                <h3 className={"text-outline font-oswald"}>
+                <h3 className={"text-outline font-oswald font-3vh"}>
                     Gólyafészek rendezvényház
                 </h3>
-                <h3 className={"text-outline font-oswald"}>
+                <h3 className={"text-outline font-oswald font-3vh"}>
                     Az esemény kezdete: 17:00
                 </h3>
-                <h3 className={"text-outline font-oswald"}>
+                <h3 className={"text-outline font-oswald font-3vh"}>
                     Pilisvörösvár, Szent Erzsébet u. 132, 2085
                 </h3>
             </div>

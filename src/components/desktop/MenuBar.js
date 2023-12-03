@@ -27,10 +27,10 @@ const MenuBar = () => {
     ]
     return (
         <Navbar expanded={true} expand="sm"
-                className="shadow-lg customNavbarColour border-black font-oswald border-bottom">
+                className="shadow-lg customNavbarColour border-black font-oswald border-bottom font-2vh">
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="navbar-nav">
-                <NavbarBrand className={"font-fancy navbar-brand nav-spacing-brand"}>
+                <NavbarBrand className={"font-fancy navbar-brand nav-spacing-brand font-2vh"}>
                     Miri és Ádám
                 </NavbarBrand>
                 <Nav className="nav-spacing">

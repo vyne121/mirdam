@@ -1,42 +1,62 @@
-import React, { useState } from 'react';
-import {Container, Form, Button, Nav} from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Form, Button, Container, Table, Row, Col} from 'react-bootstrap';
+import {useAutoAnimate} from "@formkit/auto-animate/react";
+
+function Con() {
+    return null;
+}
 
 const MultiPageForm = ({user}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [formData, setFormData] = useState({
-        // Jövök nem jövök
-        page1: { // Assuming fields for the first page
-            field1: '',
-            field2: '',
-        },
-        // Ha volt +1 akkor mi a neve?
-        page2: { // Fields for the second page
-            field3: '',
-            field4: '',
-        },
-        // Speckó ételigény
-        page3: { // Fields for the second page
-            field4: '',
-            field5: '',
-        },
-        // Add more pages as needed
+    const [formRef, enableAnimations] = useAutoAnimate(/* optional config */)
+    const [resp, setResp] = useState({
+        allergies: Object.fromEntries(
+            user.members.map(member => [
+                member.name,
+                {
+                    hasSpecialNeeds: false,
+                    text: "",
+                }
+            ])
+        ),
+        plus: Object.fromEntries(
+            user.members.filter(member => member.plusEligible).map(member => [
+                member.name, {
+                    plus: false,
+                    name: "",
+                    allergy: "",
+                }
+            ])
+        )
     });
-    const totalCount = Object.keys(formData).reduce((count, page) => {
-        return count + Object.keys(formData[page]).length;
-    }, 0);
+    const questions = [
+        "Van valamilyen különleges ételigényetek? (allergia, érzékenység, vagy diéta)",
+        "Hozol plusz egy főt?",
+        "Szeretnétek szállást kérni a helyszínen? (Az elérhetőségről és az árakról érdeklődjetek nálunk!)"
+    ]
+    console.log(resp)
+    const totalCount = 3;
 
     // Function to handle form submission
     const handleSubmit = () => {
-        console.log('Form submitted:', formData);
+        console.log('Form submitted:', resp);
         // Add logic to handle form submission, e.g., sending data to the server
     };
 
     // Function to handle going to the next page
     const handleNextPage = () => {
-        if(currentPage === 1 && true === formData.page1.field2) {
-            setCurrentPage(currentPage + 1);
+        console.log(resp)
+        let plusEligableInList = false;
+        for (let member of user.members) {
+            if (member.plusEligible) {
+                plusEligableInList = true;
+            }
         }
-        setCurrentPage(currentPage + 2);
+        if (currentPage === 1 && plusEligableInList) {
+            setCurrentPage(currentPage + 1);
+        } else {
+            setCurrentPage(currentPage + 2);
+        }
     };
 
     // Function to handle going back to the previous page
@@ -46,66 +66,184 @@ const MultiPageForm = ({user}) => {
 
     // Function to validate form data for the current page
     const isPageValid = () => {
-        return Object.values(formData[`page${currentPage}`]).every(value => value.trim() !== '');
+        console.log(resp)
+        let valid = false;
+        /*if(currentPage === 1) {
+            for (let member of resp.allergies) {
+                if(member.hasSpecialNeeds) {
+                    return false;
+                }
+            }
+        }*/
+        return true;
     };
 
+
+    function isPrevChecked(name) {
+        return resp.allergies[name].hasSpecialNeeds;
+    }
+
+    function isPlusChecked(name) {
+        console.log(resp.plus[name].plus)
+        return resp.plus[name].plus;
+    }
+
     return (
-            <Form className={"font-oswald"}>
-                {/* Render form fields based on the current page */}
-                {currentPage === 1 && (
+        <Form className={"font-oswald form-parent"}>
+            <h4 className={"h4 font-3vh"}>{questions[currentPage - 1]}</h4>
+            <Container className={"form-overflow"}>
+                {currentPage === 1 ?
                     <>
-                        <h4>Ott leszek az esküvőn:</h4>
-                        {user.members.map(item => (
-                            <Form.Group className={"d-flex"} controlId={item.name}>
-                                {item.name}:<Form.Check checked={true}/>IGEN / NEM<Form.Check checked={false}/>
-                                {item.plusEligible ? <><div>Hozok plusz egy főt:</div><Form.Check/>IGEN / NEM<Form.Check checked={false}/></> : ""}
+                        {user.members.map(guest => (
+                            <Form.Group className={"h5 font-2_5vh"} controlId={guest.name}>
+                                <Container className={"d-grid d-block"}>
+                                    <Col>
+                                        {guest.name}:
+                                    </Col>
+                                    <Col className={"d-flex text-center align-content-center align-items-center p-2"}>
+                                        NEM
+                                        <Form.Switch
+                                            checked={resp.allergies[guest.name].hasSpecialNeeds}
+                                            onChange={(e) => {
+                                                setResp((prevResp) => {
+                                                    const updatedAllergies = {...prevResp.allergies};
+                                                    if (!updatedAllergies[guest.name]) {
+                                                        updatedAllergies[guest.name] = {};
+                                                    }
+                                                    updatedAllergies[guest.name].hasSpecialNeeds = e.target.checked;
+                                                    return {...prevResp, allergies: updatedAllergies};
+                                                });
+                                            }}
+                                        />
+                                        IGEN
+                                    </Col>
+                                    <Col ref={formRef}
+                                         className={"d-flex text-center align-content-center align-items-center"}>
+                                        {
+                                            isPrevChecked(guest.name)
+                                                ? <input className="form-control"
+                                                         id={guest.name + "-allergies"}
+                                                         type="text"
+                                                         value={resp.allergies[guest.name].text}
+                                                         onChange={(e) => {
+                                                             setResp((prevResp) => {
+                                                                 const updatedAllergies = {...prevResp.allergies};
+                                                                 updatedAllergies[guest.name].text = e.target.value;
+                                                                 return {...prevResp, allergies: updatedAllergies};
+                                                             });
+                                                         }}
+                                                >
+                                                </input>
+                                                : <></>}
+
+                                    </Col>
+                                </Container>
                             </Form.Group>
                         ))}
-                    </>
-                )}
+                    </> : <></>
+                }
+            </Container>
+            {currentPage === 2 && (
+                <>
+                    {user.members.map(guest => (
+                        guest.plusEligible
+                            ? <Form.Group className={"font-2_5vh"} controlId={guest.name + "-plus"}>
+                                <Col>
+                                    {guest.name}:
+                                </Col>
+                                <Col className={"d-flex text-center align-content-center align-items-center p-2"}>
+                                    NEM
+                                    <Form.Switch
+                                        checked={resp.plus[guest.name].plus}
+                                        onChange={(e) => {
+                                            setResp((prevResp) => {
+                                                const updatedPlus = {...prevResp.plus};
+                                                if (!updatedPlus[guest.name]) {
+                                                    updatedPlus[guest.name] = {};
+                                                }
+                                                updatedPlus[guest.name].plus = e.target.checked;
+                                                return {...prevResp, plus: updatedPlus};
+                                            });
+                                        }}
+                                    />
+                                    IGEN
+                                </Col>
+                                <Col ref={formRef}
+                                     className={"d-flex text-center align-content-center align-items-center"}>
+                                    {
+                                        isPlusChecked(guest.name)
+                                            ? <>
+                                                <Container>Mi a neve?</Container>
+                                                <input className="form-control"
+                                                       id={guest.name + "-plus-name"}
+                                                       type="text"
+                                                       value={resp.plus[guest.name].name}
+                                                       onChange={(e) => {
+                                                           setResp((prevResp) => {
+                                                               const updatedPlus = {...prevResp.plus};
+                                                               updatedPlus[guest.name].name = e.target.value;
+                                                               return {...prevResp, plus: updatedPlus};
+                                                           });
+                                                       }}
+                                                >
+                                                </input>
+                                            </>
+                                            : <></>}
 
-                {currentPage === 2 && (
-                    <>
-                        <Form.Group controlId="field3">
-                            <Form.Label>Field 3</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter Field 3"
-                                value={formData.page2.field3}
-                                onChange={(e) => setFormData({ ...formData, page2: { ...formData.page2, field3: e.target.value } })}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="field4">
-                            <Form.Label>Field 4</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter Field 4"
-                                value={formData.page2.field4}
-                                onChange={(e) => setFormData({ ...formData, page2: { ...formData.page2, field4: e.target.value } })}
-                            />
-                        </Form.Group>
-                    </>
-                )}
+                                </Col>
+                                <Col ref={formRef}
+                                     className={"d-flex text-center align-content-center align-items-center"}>
+                                    {
+                                        isPlusChecked(guest.name)
+                                            ? <>
+                                                <Container>Van valamilyen érzékenysége vagy speciális ételigénye?</Container>
+                                                <input className="form-control"
+                                                       id={guest.name + "-plus-name"}
+                                                       type="text"
+                                                       value={resp.plus[guest.name].name}
+                                                       onChange={(e) => {
+                                                           setResp((prevResp) => {
+                                                               const updatedPlus = {...prevResp.plus};
+                                                               updatedPlus[guest.name].name = e.target.value;
+                                                               return {...prevResp, plus: updatedPlus};
+                                                           });
+                                                       }}
+                                                >
+                                                </input>
+                                            </>
 
+                                            : <></>}
+
+                                </Col>
+                            </Form.Group>
+                            : <></>
+                    ))
+                    }
+                </>
+            )}
+            <Form.Group className={"pt-3 h-25"}>
                 {/* Navigation buttons */}
-                {currentPage > 1 && (
-                    <Button variant="primary" onClick={handlePrevPage}>
+                {currentPage !== 1
+                    ? <Button variant="primary" onClick={handlePrevPage}>
                         Előző
                     </Button>
-                )}
-
-                {currentPage < totalCount && (
-                    <Button variant="primary" onClick={handleNextPage} disabled={!isPageValid()}>
-                        Követkető
+                    : <></>
+                }
+                {currentPage !== 3
+                    ? <Button variant="primary" className={"dynamic-btn"} onClick={handleNextPage}
+                              disabled={!isPageValid()}>
+                        Következő
                     </Button>
-                )}
-
-                {currentPage === totalCount && (
-                    <Button variant="success" onClick={handleSubmit} disabled={!isPageValid()}>
+                    : <></>
+                }
+                {currentPage === 3
+                    ? <Button variant="primary" onClick={handleSubmit} disabled={!isPageValid()}>
                         Küldés
                     </Button>
-                )}
-            </Form>
+                    : <></>
+                }
+            </Form.Group>
+        </Form>
     );
 };
 

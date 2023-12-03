@@ -5,9 +5,18 @@ import image2 from "../images/IMG2.jpg";
 import image3 from "../images/IMG3.jpg";
 import image4 from "../images/IMG4.jpg";
 import image5 from "../images/IMG5.jpg";
-import React from "react";
+import React, {useEffect} from "react";
 
 const MainPage = () => {
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+
     let isMobile = window.innerWidth <= 768;
 
     let images = [
@@ -40,6 +49,7 @@ const MainPage = () => {
                     touch={true}
                     controls={false}
                     data-bs-theme="dark">
+
                     {images.map(item => (
                         <Carousel.Item>
                             <DynamicImage src={item.src}/>

@@ -2,22 +2,11 @@
 import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideMenu from "./components/mobile/SideMenu";
-import MainPage from "./components/MainPage";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import MusicRequestPage from "./components/MusicRequestPage";
-import PhotoSendPage from "./components/PhotoSendPage";
+import {BrowserRouter as Router} from "react-router-dom";
 import MenuBar from "./components/desktop/MenuBar";
-import RedirectPage from "./components/RedirectPage";
-import FeedbackPage from "./components/FeedbackPage";
+import AnimatedRoutes from "./components/AnimatedRoutes";
 
 function App() {
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';
-
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, []);
 
     let isMobil = false;
 
@@ -25,13 +14,7 @@ function App() {
         <>
             <Router>
                 {isMobil ? <SideMenu/> : <MenuBar/>}
-                <Routes>
-                    <Route path="/musicRequest" element={<MusicRequestPage/>}/>
-                    <Route path="/sendImage" element={<PhotoSendPage/>}/>
-                    <Route path="/feedback" element={<FeedbackPage/>}/>
-                    <Route path="/" element={ <MainPage/>}/>
-                    <Route path="/:identifier" element={<RedirectPage/>}/>
-                </Routes>
+                <AnimatedRoutes/>
             </Router>
         </>
     )

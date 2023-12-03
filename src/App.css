@@ -98,8 +98,8 @@ body {
 
 .bottom-right-overlay {
   position: absolute;
-  top: 80%;
-  left: 15%;
+  top: 80vh;
+  left: 20%;
   transform: translate(-50%, -50%);
   text-align: center;
   color: white;
@@ -252,7 +252,7 @@ body {
 }
 
 .photoFrame_content {
-  padding: 10px;
+  padding: 5%;
   color: #323232;
 }
 
@@ -271,6 +271,41 @@ body {
   background-repeat: repeat !important;
 }
 
-.xycustomBackgroundColour2 {
+.customBackgroundColour2 {
   background: #2d6759 ;
+}
+
+.form-overflow {
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+.dynamic-btn {
+  width: auto;
+  font-size: 2vh;
+}
+
+.form-parent {
+  height: 50vh;
+  position: relative;
+}
+
+.font-5vh {
+  font-size: 5vh;
+}
+
+.font-3vh {
+  font-size: 3vh;
+}
+
+.font-2vh {
+  font-size: 2vh;
+}
+
+.font-2_5vh {
+  font-size: 2.5vh;
+}
+
+.font-1vh {
+  font-size: 1vh;
 }

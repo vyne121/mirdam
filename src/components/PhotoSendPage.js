@@ -1,12 +1,27 @@
 import {Button, ButtonGroup, Container, Form, Modal} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {motion} from "framer-motion";
 
 const PhotoSendPage = () => {
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
     const [textareaValue, setTextareaValue] = useState('');
     return (
         <>
-            <Container fluid className={"customBackgroundColour2 patternBack2 d-flex flex-column justify-content-center align-items-center"} style={{ height: '100vh' }}>
+            <motion.Container
+                fluid
+                className={"customBackgroundColour2 patternBack2 d-flex flex-column justify-content-center align-items-center"}
+                style={{ height: '100vh' }}
+                initial={{x: "100%", transition: { duration: 0.5}}}
+                animate={{x: "0%", transition: { duration: 0.5}}}
+                exit={{x: "100%", transition: { duration: 0.5}}}
+            >
                 <Container className={"pill-card2 shadow-lg"}>
                     <Container className={"container pt-3"}>
                         <h1 className={"text-white text-outline-inverse font-oswald"}>
@@ -36,7 +51,7 @@ const PhotoSendPage = () => {
                         </Container>
                     </Form>
                 </Container>
-            </Container>
+            </motion.Container>
         </>
     )
 }
