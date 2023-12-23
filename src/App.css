@@ -110,8 +110,9 @@ body {
 }
 
 .pill-card {
-  width: 50vw;
-  height: 50vh;
+  width: 50%;
+  height: 50%;
+  max-height: 75vh;
   border-radius: 2vw;
   border-color: black;
   background: #FDECEF;
@@ -276,8 +277,9 @@ body {
 }
 
 .form-overflow {
-  max-height: 90%;
-  overflow-y: auto;
+  height: 60%;
+  max-height: 60%;
+  overflow-y: scroll;
 }
 
 .dynamic-btn {
@@ -286,12 +288,20 @@ body {
 }
 
 .form-parent {
-  height: 50vh;
-  position: relative;
+  height: 45vh !important;
+  max-height: 45vh !important;
+}
+
+.formButtonSmall {
+  width: 7vw;
 }
 
 .font-5vh {
   font-size: 5vh;
+}
+
+.font-3_5vh {
+  font-size: 3.5vh;
 }
 
 .font-3vh {
@@ -304,6 +314,10 @@ body {
 
 .font-2_5vh {
   font-size: 2.5vh;
+}
+
+.font-1_5vh {
+  font-size: 1.5vh;
 }
 
 .font-1vh {

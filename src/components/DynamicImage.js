@@ -13,10 +13,13 @@ const DynamicImage = ({src, offset}) => {
             </div>
             <div className={"bottom-right-overlay"}>
                 <h3 className={"text-outline font-oswald font-3vh"}>
-                    Gólyafészek rendezvényház
+                     Gyülekező: 16:30
                 </h3>
                 <h3 className={"text-outline font-oswald font-3vh"}>
                     Az esemény kezdete: 17:00
+                </h3>
+                <h3 className={"text-outline font-oswald font-3vh"}>
+                    Gólyafészek rendezvényház
                 </h3>
                 <h3 className={"text-outline font-oswald font-3vh"}>
                     Pilisvörösvár, Szent Erzsébet u. 132, 2085

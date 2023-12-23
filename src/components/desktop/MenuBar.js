@@ -35,7 +35,7 @@ const MenuBar = () => {
                 </NavbarBrand>
                 <Nav className="nav-spacing">
                     {menuItems.map(item => (
-                        <Nav.Link className={""} href={"/" + item.link} key={item.name}>
+                        <Nav.Link className={"border-end border-black"} href={"/" + item.link} key={item.name}>
                             {item.icon} {item.name}
                         </Nav.Link>
                     ))}
