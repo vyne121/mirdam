@@ -1,16 +1,13 @@
 import React, {useState} from 'react';
-import {Form, Button, Container, Table, Row, Col, ButtonGroup} from 'react-bootstrap';
+import {Button, ButtonGroup, Col, Container, Form} from 'react-bootstrap';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
-function Con() {
-    return null;
-}
+import axios from 'axios';
 
 const MultiPageForm = ({user}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [formRef, enableAnimations] = useAutoAnimate(/* optional config */)
+    const [formRef, enableAnimations] = useAutoAnimate()
     const [resp, setResp] = useState({
         allergies: Object.fromEntries(
             user.members.map(member => [
@@ -29,25 +26,42 @@ const MultiPageForm = ({user}) => {
                     allergy: "",
                 }
             ])
-        )
+        ),
+        needAccommodation: false,
+        needAccommodationFor: 0,
+        identifier: user.code
     });
     const questions = [
         "Van valamilyen különleges ételigényetek? (allergia, érzékenység, vagy diéta)",
         "Hozol plusz egy főt?",
         "Szeretnétek szállást kérni a helyszínen? (Az elérhetőségről és az árakról érdeklődjetek nálunk!)"
     ]
-    console.log(resp)
-    const totalCount = 3;
+
+    const sendFeedback = async () => {
+        try {
+
+            // Make a POST request to the Flask /feedback endpoint
+            const response = await axios.post('http://127.0.0.1:5000/feedback', resp, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error sending feedback:', error);
+        }
+    }
 
     // Function to handle form submission
     const handleSubmit = () => {
         console.log('Form submitted:', resp);
+        sendFeedback().then(r => console.log("SENT MESSAGE"))
         // Add logic to handle form submission, e.g., sending data to the server
     };
 
     // Function to handle going to the next page
     const handleNextPage = () => {
-        console.log(resp)
         let plusEligableInList = false;
         for (let member of user.members) {
             if (member.plusEligible) {
@@ -68,7 +82,6 @@ const MultiPageForm = ({user}) => {
 
     // Function to validate form data for the current page
     const isPageValid = () => {
-        console.log(resp)
         let valid = false;
         /*if(currentPage === 1) {
             for (let member of resp.allergies) {
@@ -86,13 +99,12 @@ const MultiPageForm = ({user}) => {
     }
 
     function isPlusChecked(name) {
-        console.log(resp.plus[name].plus)
         return resp.plus[name].plus;
     }
 
     return (
         <Form className={"font-oswald form-parent"}>
-            <h4 className={"h4 font-2_5vh"}>{questions[currentPage - 1]}</h4>
+            <h4 className={"h4 font-2_5vh variwidth"}>{questions[currentPage - 1]}</h4>
             <Container className={"form-overflow"} id={"form-container"}>
                 {currentPage === 1 ?
                     <>
@@ -201,13 +213,13 @@ const MultiPageForm = ({user}) => {
                                                     <Container>Van valamilyen érzékenysége vagy speciális
                                                         ételigénye?</Container>
                                                     <input className="form-control"
-                                                           id={guest.name + "-plus-name"}
+                                                           id={guest.name + "-plus-allergy"}
                                                            type="text"
-                                                           value={resp.plus[guest.name].name}
+                                                           value={resp.plus[guest.name].allergy}
                                                            onChange={(e) => {
                                                                setResp((prevResp) => {
                                                                    const updatedPlus = {...prevResp.plus};
-                                                                   updatedPlus[guest.name].name = e.target.value;
+                                                                   updatedPlus[guest.name].allergy = e.target.value;
                                                                    return {...prevResp, plus: updatedPlus};
                                                                });
                                                            }}
@@ -222,6 +234,53 @@ const MultiPageForm = ({user}) => {
                                 : <></>
                         ))
                         }
+                    </>
+                )}
+                {currentPage === 3 && (
+                    <>
+                        <Form.Group
+                            className={"h4 font-2_5vh"}
+                            controlId={user.name + "-accommodation"}>
+                            <Col className={"d-flex text-center align-content-center align-items-center p-2"}>
+                                NEM
+                                <Form.Switch
+                                    checked={resp.needAccommodation}
+                                    onChange={(e) => {
+                                        setResp((prevResp) => {
+                                            // Toggle the needAccommodation value based on the current state
+                                            return {
+                                                ...prevResp,
+                                                needAccommodation: !prevResp.needAccommodation
+                                            };
+                                        });
+                                    }}
+                                />
+                                IGEN
+                            </Col>
+                            {
+                                resp.needAccommodation
+                                    ?
+                                    <>
+                                        <Container>
+                                            Hány főre szeretnétek szállást?
+                                        </Container>
+                                        <input className="form-control"
+                                               id={user.name + "-numOfAccommodations"}
+                                               type="number"
+                                               value={resp.needAccommodationFor}
+                                               placeholder={0}
+                                               min={0}
+                                               onChange={(e) => {
+                                                       setResp((prevResp) => {
+                                                           return {...prevResp, needAccommodationFor: parseInt(e.target.value)};
+                                                       });
+                                               }}
+                                        >
+                                        </input>
+                                    </>
+                                    : <></>
+                            }
+                        </Form.Group>
                     </>
                 )}
             </Container>
@@ -242,7 +301,7 @@ const MultiPageForm = ({user}) => {
                             variant="primary"
                             className={"formButtonSmall font-2vh"}
                             onClick={handleNextPage}
-                                  disabled={!isPageValid()}>
+                            disabled={!isPageValid()}>
                             Következő <FontAwesomeIcon icon={icon({name: 'arrow-right'})}/>
                         </Button>
                         : <></>

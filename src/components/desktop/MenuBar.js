@@ -7,22 +7,26 @@ const MenuBar = () => {
         {
             "name": "Főoldal",
             "link": "",
-            "icon": <FontAwesomeIcon icon={icon({name: 'home'})}/>
+            "icon": <FontAwesomeIcon icon={icon({name: 'home'})}/>,
+            "loggedInOnly": false,
         },
         {
             "name": "Zene küldés",
             "link": "musicRequest",
-            "icon": <FontAwesomeIcon icon={icon({name: 'music'})}/>
+            "icon": <FontAwesomeIcon icon={icon({name: 'music'})}/>,
+            "loggedInOnly": true,
         },
         {
             "name": "Kép küldés",
             "link": "sendImage",
-            "icon": <FontAwesomeIcon icon={icon({name: 'camera'})}/>
+            "icon": <FontAwesomeIcon icon={icon({name: 'camera'})}/>,
+            "loggedInOnly": true,
         },
         {
             "name": "Visszajelzés",
             "link": "feedback",
-            "icon": <FontAwesomeIcon icon={icon({name: 'mail-reply'})}/>
+            "icon": <FontAwesomeIcon icon={icon({name: 'mail-reply'})}/>,
+            "loggedInOnly": false,
         }
     ]
     return (
@@ -35,7 +39,11 @@ const MenuBar = () => {
                 </NavbarBrand>
                 <Nav className="nav-spacing">
                     {menuItems.map(item => (
-                        <Nav.Link className={"border-end border-black"} href={"/" + item.link} key={item.name}>
+                        <Nav.Link
+                            className={"border-end border-black"}
+                            href={"/" + item.link}
+                            disabled={item.loggedInOnly ? true : sessionStorage.getItem("uID")}
+                            key={item.name}>
                             {item.icon} {item.name}
                         </Nav.Link>
                     ))}
