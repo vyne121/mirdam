@@ -6,6 +6,7 @@ import FeedbackPage from "./FeedbackPage";
 import MainPage from "./MainPage";
 import RedirectPage from "./RedirectPage";
 import {AnimatePresence} from "framer-motion";
+import AdminView from "./AdminView";
 
 function AnimatedRoutes() {
     const location = useLocation();
@@ -15,6 +16,7 @@ function AnimatedRoutes() {
                 <Route path="/musicRequest" element={<MusicRequestPage/>}/>
                 <Route path="/sendImage" element={<PhotoSendPage/>}/>
                 <Route path="/feedback" element={<FeedbackPage/>}/>
+                <Route path="/adminView" element={<AdminView/>}/>
                 <Route path="/" element={ <MainPage/>}/>
                 <Route path="/:identifier" element={<RedirectPage/>}/>
             </Routes>

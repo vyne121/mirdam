@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import MultiPageForm from "./MultiPageForm";
 import {motion} from "framer-motion";
 
-
 const FeedbackPage = () => {
     let valid_passes = [
         {
@@ -67,7 +66,7 @@ const FeedbackPage = () => {
         },
         {
             name: "Test1",
-            code: "aB3cD4",
+            code: "ab3cd4",
             members: [
                 {
                     name: "MEM1",
@@ -81,7 +80,7 @@ const FeedbackPage = () => {
         },
         {
             name: "Test2",
-            code: "eF5gH6",
+            code: "ef5gh6",
             members: [
                 { name: "MEM3", plusEligible: true },
                 { name: "MEM4", plusEligible: true }
@@ -89,17 +88,23 @@ const FeedbackPage = () => {
         },
         {
             name: "Test20",
-            code: "yZ1aB2",
+            code: "yz1ab2",
             members: [
                 { name: "MEM39", plusEligible: true },
                 { name: "MEM40", plusEligible: true }
             ]
+        },
+        {
+            name: "ÁDÁM ÉS MIRI",
+            code: "mirito"
         }
     ]
     let [currentId, setCurrentId] = useState(sessionStorage.getItem("uID"));
 
     useEffect(() => {
-        document.body.style.overflow = 'hidden';
+        if (window.innerWidth > 768) {
+            document.body.style.overflow = 'hidden';
+        }
         return () => {
             document.body.style.overflow = 'auto';
         };
@@ -154,6 +159,7 @@ const FeedbackPage = () => {
 
                         </FormLabel>
                         <FormControl value={identifierFieldValue}
+                                     autoFocus={true}
                                      onChange={(e) => setIdentifierFieldValue(e.target.value)}
                                      className={"form-control-lg text-sm-center font-2vh"}
                                      id={"identifierField"}
@@ -206,7 +212,9 @@ const FeedbackPage = () => {
                 animate={{x: 0}}
                 transition={{ease: "easeOut", duration: 1}}>
                 {
-                    currentId ? <LoggedInView/> : <IdentifierView/>
+                    currentId
+                        ? <LoggedInView/>
+                        : <IdentifierView/>
                 }
             </motion.Container>
         </motion.div>

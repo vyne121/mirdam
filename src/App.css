@@ -1,329 +1,444 @@
 /* App.css */
 .dynamic-image-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  padding-top: 56.25%; /* Set the padding-top based on a 16:9 aspect ratio (9 / 16 * 100) */
-  overflow: hidden;
-  background: #9EBC9F;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 56.25%; /* Set the padding-top based on a 16:9 aspect ratio (9 / 16 * 100) */
+    overflow: hidden;
+    background: #9EBC9F;
 }
 
 .dynamic-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-}
-
-@media (max-width: 768px) {
-  .dynamic-image {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-  }
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .dynamic-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+    }
 }
 
 .font-fancy {
-  font-family: 'Geraldin';
+    font-family: 'Geraldin';
 }
 
 .side-menu-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100vh;
-  object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100vh;
+    object-fit: cover;
 }
 
 .nav-spacing {
-  padding-left: 1vw;
+    padding-left: 1vw;
 }
 
 .nav-spacing-brand {
-  padding-left: 1vw;
+    padding-left: 1vw;
 }
 
 .side-menu-container.visible {
-  width: 15%;
-  transition: width 1500ms ease;
+    width: 15%;
+    transition: width 1500ms ease;
 }
 
 .side-menu-button {
-  position: absolute;
-  top: 2%;
-  left: 1%;
-  width: 6vh;
-  height: 6vh;
-  object-fit: cover;
+    position: absolute;
+    top: 2%;
+    left: 1%;
+    width: 6vh;
+    height: 6vh;
+    object-fit: cover;
 }
 
 .side-menu-button-shifted {
-  top: 2%;
-  left: 1%;
-  width: 6vh;
-  height: 6vh;
+    top: 2%;
+    left: 1%;
+    width: 6vh;
+    height: 6vh;
 }
 
 .side-menu-button-icon {
-  width: 5vh;
-  height: 5vh;
+    width: 5vh;
+    height: 5vh;
 }
 
 @font-face {
-  font-family: 'Geraldin';
-  src: url('./fonts/geraldin.ttf') format('truetype');
+    font-family: 'Geraldin';
+    src: url('./fonts/geraldin.ttf') format('truetype');
 }
 
 body {
-  font-family: 'Geraldin', sans-serif;
+    font-family: 'Geraldin', sans-serif;
 }
 
 .text-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-  font-size: 20vh;
-  font-family: 'Geraldin', sans-serif;
-  font-weight: bold;
-  padding: 10vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-size: 20vh;
+    font-family: 'Geraldin', sans-serif;
+    font-weight: bold;
+    padding: 10vh;
+}
+
+@media (max-width: 768px) {
+    .text-overlay {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        width: 100% ;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        font-size: 3vw;
+        font-family: 'Geraldin', sans-serif;
+        font-weight: bold;
+    }
 }
 
 .bottom-right-overlay {
-  position: absolute;
-  top: 80vh;
-  left: 20%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-  font-size: 20vh;
-  font-family: 'Geraldin', sans-serif;
-  font-weight: bold;
-  padding: 10vh;
+    position: absolute;
+    top: 80vh;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-size: 20vh;
+    font-family: 'Geraldin', sans-serif;
+    font-weight: bold;
+    padding: 10vh;
+}
+
+@media (max-width: 768px) {
+    .bottom-right-overlay {
+        display: none;
+        position: absolute;
+        top: 70vh;
+        left: 35%;
+        width: 100%;
+        text-align: left;
+        color: white;
+        font-size: 20vh;
+        font-family: 'Geraldin', sans-serif;
+        font-weight: bold;
+    }
 }
 
 .pill-card {
-  width: 50%;
-  height: 50%;
-  max-height: 75vh;
-  border-radius: 2vw;
-  border-color: black;
-  background: #FDECEF;
+    width: 50%;
+    height: 50%;
+    max-height: 75vh;
+    border-radius: 2vw;
+    border-color: black;
+    background: #FDECEF;
+}
+
+@media (max-width: 768px) {
+    .pill-card {
+        width: 80%;
+        height: 50%;
+        max-height: 75vh;
+        border-radius: 2vw;
+        border-color: black;
+        background: #FDECEF;
+    }
 }
 
 .pill-card2 {
-  width: 50vw;
-  height: 50vh;
-  border-radius: 2vw;
-  border-color: black;
-  background: #935a70;
+    width: 50vw;
+    height: 50vh;
+    border-radius: 2vw;
+    border-color: black;
+    background: #935a70;
 }
 
 .text-overlay h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 10vh;
-  font-family: Geraldin;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 10vh;
+    font-family: Geraldin;
+}
+
+@media (max-width: 768px) {
+    .text-overlay h2 {
+        margin-top: 0;
+        font-size: 11vw;
+        font-family: Geraldin;
+    }
 }
 
 .text-overlay h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 5vh;
-  font-family: "Palatino";
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 5vh;
+    font-family: "Palatino";
 }
 
+@media (max-width: 768px) {
+    .text-overlay h3 {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 6vw;
+        font-family: "Palatino";
+    }
+}
+
+
 .text-outline-h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 5vh;
-  font-family: Geraldin !important;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 5vh;
+    font-family: Geraldin !important;
+}
+
+@media (max-width: 768px) {
+    .text-outline-h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 5vw;
+        font-family: Geraldin !important;
+    }
 }
 
 .font-oswald {
-  font-family: Oswald;
+    font-family: Oswald;
 }
 
 .text-overlay-top h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 5vh;
-  font-family: Geraldin;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 5vh;
+    font-family: Geraldin;
+}
+
+@media (max-width: 768px) {
+    .text-overlay-top h2 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 0.5vw;
+        font-family: Geraldin;
+    }
 }
 
 .text-overlay p {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .text-outline {
-  text-shadow: -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000, 1px 1px 2px #000;
+    text-shadow: -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000, 1px 1px 2px #000;
 }
 
 .text-outline-inverse {
-  text-shadow: -1px -1px 2px #ffffff, 1px -1px 2px #ffffff, -1px 1px 2px #ffffff, 1px 1px 2px #ffffff;
-  color: black !important;
+    text-shadow: -1px -1px 2px #ffffff, 1px -1px 2px #ffffff, -1px 1px 2px #ffffff, 1px 1px 2px #ffffff;
+    color: black !important;
 }
 
 .fullScreen {
-  height: 100vh;
-  width: 100vw;
+    height: 100vh;
+    width: 100vw;
 }
 
 .photoFrame {
-  width: 190px;
-  height: 254px;
-  background: lightgrey;
-  position: relative;
-  transform: skewY(-10deg);
-  border: 5px solid #6d74e3;
-  box-sizing: border-box;
-  transition: all 0.3s;
+    width: 190px;
+    height: 254px;
+    background: lightgrey;
+    position: relative;
+    transform: skewY(-10deg);
+    border: 5px solid #6d74e3;
+    box-sizing: border-box;
+    transition: all 0.3s;
 }
 
 .photoFrame::before {
-  content: '';
-  width: 10px;
-  height: 254px;
-  background: #6d74e3;
-  position: absolute;
-  top: -5px;
-  left: -14.7px;
-  transform-origin: right;
-  transform: skewY(45deg);
-  border: none;
-  transition: all 0.5s;
+    content: '';
+    width: 10px;
+    height: 254px;
+    background: #6d74e3;
+    position: absolute;
+    top: -5px;
+    left: -14.7px;
+    transform-origin: right;
+    transform: skewY(45deg);
+    border: none;
+    transition: all 0.5s;
 }
 
 .photoFrame::after {
-  content: '';
-  height: 10px;
-  width: 190px;
-  background: #6d74e3;
-  position: absolute;
-  top: -14.7px;
-  left: -5px;
-  transform-origin: bottom;
-  transform: skewX(45deg);
-  border: none;
-  transition: all 0.5s;
+    content: '';
+    height: 10px;
+    width: 190px;
+    background: #6d74e3;
+    position: absolute;
+    top: -14.7px;
+    left: -5px;
+    transform-origin: bottom;
+    transform: skewX(45deg);
+    border: none;
+    transition: all 0.5s;
 }
 
 .photoFrame:hover {
-  transform: skewY(0deg);
+    transform: skewY(0deg);
 }
 
 .photoFrame:hover::before {
-  width: 0px;
-  height: 249px;
-  left: 0;
-  top: 0.1px;
+    width: 0px;
+    height: 249px;
+    left: 0;
+    top: 0.1px;
 }
 
 .photoFrame:hover::after {
-  width: 184px;
-  height: 0px;
-  left: 0.1px;
-  top: 0;
+    width: 184px;
+    height: 0px;
+    left: 0.1px;
+    top: 0;
 }
 
 .customNavbarColour {
-  background: #9EBC9F !important;
+    background: #9EBC9F !important;
 }
 
 .customButtonColour {
-  background: #9D6381;
-  --bs-btn-hover-bg: #de8cb7;
-  --bs-btn-disabled-bg: rgba(157, 99, 129, 0.5);
-  --bs-btn-border-color: #9D6381;
+    background: #9D6381;
+    --bs-btn-hover-bg: #de8cb7;
+    --bs-btn-disabled-bg: rgba(157, 99, 129, 0.5);
+    --bs-btn-border-color: #9D6381;
 }
 
 .customBackgroundColour {
-  background: #612940 !important;
+    background: #612940 !important;
 }
 
 .customBackgroundColour2 {
-  background: #397b88 !important;
+    background: #397b88 !important;
 }
 
 .photoFrame_content {
-  padding: 5%;
-  color: #323232;
+    padding: 5%;
+    color: #323232;
 }
 
 .patternBack {
-  background-image: url('/src/images/pattern1.png') !important;
-  background-repeat: repeat !important;
+    background-image: url('/src/images/pattern1.png') !important;
+    background-repeat: repeat !important;
 }
 
 .patternBack2 {
-  background-image: url('/src/images/pattern2.png') !important; /* Replace with the actual path to your pattern image */
-  background-repeat: repeat !important;
+    background-image: url('/src/images/pattern2.png') !important; /* Replace with the actual path to your pattern image */
+    background-repeat: repeat !important;
 }
 
 .patternBack3 {
-  background-image: url('/src/images/pattern3.png') !important; /* Replace with the actual path to your pattern image */
-  background-repeat: repeat !important;
+    background-image: url('/src/images/pattern3.png') !important; /* Replace with the actual path to your pattern image */
+    background-repeat: repeat !important;
 }
 
 .customBackgroundColour2 {
-  background: #2d6759 ;
+    background: #2d6759;
 }
 
 .form-overflow {
-  height: 60%;
-  max-height: 60%;
-  overflow-y: scroll;
+    height: 60%;
+    max-height: 60%;
+    overflow-y: scroll;
 }
 
 .dynamic-btn {
-  width: auto;
-  font-size: 2vh;
+    width: auto;
+    font-size: 2vh;
 }
 
 .form-parent {
-  height: 45vh !important;
-  max-height: 45vh !important;
+    height: 45vh !important;
+    max-height: 45vh !important;
 }
 
 .formButtonSmall {
-  width: 7vw;
+    width: fit-content;
+    min-width: 2vh;
 }
 
+
 .font-5vh {
-  font-size: 5vh;
+    font-size: 5vh;
+}
+
+@media (max-width: 768px) {
+    .font-5vh {
+        font-size: 5vw;
+    }
 }
 
 .font-3_5vh {
-  font-size: 3.5vh;
+    font-size: 3.5vh;
+}
+
+@media (max-width: 768px) {
+    .font-3_5vh {
+        font-size: 5vw;
+    }
 }
 
 .font-3vh {
-  font-size: 3vh;
+    font-size: 3vh;
 }
 
+@media (max-width: 768px) {
+    .font-3vh {
+        font-size: 3vw;
+    }
+}
+
+
 .font-2vh {
-  font-size: 2vh;
+    font-size: 2vh;
+}
+
+@media (max-width: 768px) {
+    .font-2vh {
+        font-size: 4vw;
+    }
 }
 
 .font-2_5vh {
-  font-size: 2.5vh;
+    font-size: 2.5vh;
+}
+
+@media (max-width: 768px) {
+    .font-2_5vh {
+        font-size: 4vw;
+    }
 }
 
 .font-1_5vh {
-  font-size: 1.5vh;
+    font-size: 1.5vh;
+}
+
+.font-1_25vh {
+    font-size: 1.30vh;
 }
 
 .font-1vh {
-  font-size: 1vh;
+    font-size: 1vh;
 }
 
 .variwidth {
-  width: fit-content;
+    width: fit-content;
 }

@@ -1,8 +1,15 @@
 import {Container, Nav, Navbar, NavbarBrand} from "react-bootstrap";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {icon} from '@fortawesome/fontawesome-svg-core/import.macro'
+import {useState} from "react";
 
 const MenuBar = () => {
+    let [expanded, setExpanded] = useState(false);
+
+    function toggleMenu() {
+        setExpanded(!expanded)
+    }
+
     let menuItems = [
         {
             "name": "Főoldal",
@@ -30,13 +37,17 @@ const MenuBar = () => {
         }
     ]
     return (
-        <Navbar expanded={true} expand="sm"
-                className="shadow-lg customNavbarColour border-black font-oswald border-bottom font-2vh">
-            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+        <Navbar expanded={expanded} expand="sm"
+                className="shadow-lg customNavbarColour border-bottom border-black font-oswald border-bottom font-2vh">
+                <Navbar.Toggle
+                    aria-controls="basic-navbar-nav"
+                    onClick={toggleMenu}
+                    className={"border-0"}
+                />
+            <NavbarBrand className={"font-fancy navbar-brand nav-spacing-brand font-3_5vh"}>
+                Miri és Ádám
+            </NavbarBrand>
             <Navbar.Collapse id="navbar-nav">
-                <NavbarBrand className={"font-fancy navbar-brand nav-spacing-brand font-2vh"}>
-                    Miri és Ádám
-                </NavbarBrand>
                 <Nav className="nav-spacing">
                     {menuItems.map(item => (
                         <Nav.Link
