@@ -198,7 +198,7 @@ const FeedbackPage = () => {
 
     return <>
         {/*Background*/}
-        <motion.div fluid
+        <motion.Container fluid
                     className={"customBackgroundColour2 patternBack3 d-flex justify-content-center align-items-center"}
                     style={{height: '100vh'}}
                     initial={{x: "100%", transition: {duration: 0.5}}}
@@ -217,7 +217,7 @@ const FeedbackPage = () => {
                         : <IdentifierView/>
                 }
             </motion.Container>
-        </motion.div>
+        </motion.Container>
     </>
 
 }

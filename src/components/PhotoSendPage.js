@@ -25,15 +25,20 @@ const PhotoSendPage = () => {
                 <Container className={"pill-card2 shadow-lg"}>
                     <Container className={"container pt-3"}>
                         <h1 className={"text-white text-outline-inverse font-oswald"}>
-                            Küldjetek zeneszámokat amikre szívesen buliznátok!
+                            Küldjetek képeket velünk/rólunk, amikhez szép emlékeitek fűződnek!
                         </h1>
                     </Container>
                     <Form className={"font-oswald"}>
                         <Container className={"pt-4"}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>
+                                    <Container>
+                                        <h5>
+                                            A küldött fotókból válogatva az esküvőn vetiteni fogunk
+                                        </h5>
+                                    </Container>
                                     <h4>
-                                        A dal előadója és címe:
+                                        Feltöltés:
                                     </h4>
                                 </Form.Label>
                                 <Form.Control id={"songLink"} value={textareaValue}
