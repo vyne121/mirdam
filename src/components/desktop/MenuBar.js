@@ -53,7 +53,7 @@ const MenuBar = () => {
                         <Nav.Link
                             className={"border-end border-black"}
                             href={"/" + item.link}
-                            disabled={item.loggedInOnly ? true : sessionStorage.getItem("uID")}
+                            disabled={item.loggedInOnly ? !sessionStorage.getItem("uID") : false}
                             key={item.name}>
                             {item.icon} {item.name}
                         </Nav.Link>

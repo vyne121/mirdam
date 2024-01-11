@@ -34,7 +34,7 @@ const PhotoSendPage = () => {
                                 <Form.Label>
                                     <Container>
                                         <h5>
-                                            A küldött fotókból válogatva az esküvőn vetiteni fogunk
+                                            A küldött fotókból válogatva az esküvőn vetíteni fogunk
                                         </h5>
                                     </Container>
                                     <h4>
