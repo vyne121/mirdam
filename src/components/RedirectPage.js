@@ -6,7 +6,7 @@ const RedirectPage = () => {
     const navigate = useNavigate();
     const { identifier } = useParams();
     useEffect(() => {
-        const checkUIdEndpoint = "16.171.37.246:5000/check_uid?uID=" + identifier;
+        const checkUIdEndpoint = "http://16.171.37.246:5000/check_uid?uID=" + identifier;
         fetch(checkUIdEndpoint)
             .then(response => response.json())
             .then(data => {

@@ -20,7 +20,7 @@ const FeedbackPage = () => {
 
         useEffect(() => {
             const currentId = sessionStorage.getItem("uID");
-            const checkUIdEndpoint = "16.171.37.246:5000/family?uID=" + currentId;
+            const checkUIdEndpoint = "http://16.171.37.246:5000/family?uID=" + currentId;
 
             fetch(checkUIdEndpoint)
                 .then(response => response.json())
@@ -60,7 +60,7 @@ const FeedbackPage = () => {
         function checkIdentifier() {
             console.log(identifierFieldValue)
             setErrorMessage("")
-            const checkUIdEndpoint = "16.171.37.246:5000/check_uid?uID=" + identifierFieldValue;
+            const checkUIdEndpoint = "http://16.171.37.246:5000/check_uid?uID=" + identifierFieldValue;
             fetch(checkUIdEndpoint)
                 .then(response => response.json())
                 .then(data => {

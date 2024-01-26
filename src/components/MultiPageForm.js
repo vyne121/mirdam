@@ -49,7 +49,7 @@ const MultiPageForm = ({user}) => {
         try {
 
             // Make a POST request to the Flask /feedback endpoint
-            const response = await axios.post('16.171.37.246:5000/feedback', resp, {
+            const response = await axios.post('http://16.171.37.246:5000/feedback', resp, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
