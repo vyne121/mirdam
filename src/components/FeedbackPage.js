@@ -20,7 +20,7 @@ const FeedbackPage = () => {
 
         useEffect(() => {
             const currentId = sessionStorage.getItem("uID");
-            const checkUIdEndpoint = "https://16.171.37.246:5000/family?uID=" + currentId;
+            const checkUIdEndpoint = "16.171.37.246:5000/family?uID=" + currentId;
 
             fetch(checkUIdEndpoint)
                 .then(response => response.json())
@@ -60,7 +60,7 @@ const FeedbackPage = () => {
         function checkIdentifier() {
             console.log(identifierFieldValue)
             setErrorMessage("")
-            const checkUIdEndpoint = "https://16.171.37.246:5000/check_uid?uID=" + identifierFieldValue;
+            const checkUIdEndpoint = "16.171.37.246:5000/check_uid?uID=" + identifierFieldValue;
             fetch(checkUIdEndpoint)
                 .then(response => response.json())
                 .then(data => {
@@ -106,6 +106,7 @@ const FeedbackPage = () => {
                 <Container>
                     <Button type={"button"}
                             className={"btn btn-dark font-oswald font-2vh"}
+                            disabled={!identifierFieldValue}
                             onClick={checkIdentifier}>
                         Küldés
                     </Button>
