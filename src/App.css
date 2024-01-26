@@ -442,3 +442,19 @@ body {
 .variwidth {
     width: fit-content;
 }
+
+.sideScrollContainer {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.modalMax {
+    font-family: 'Oswald', sans-serif;
+    width: 50vw !important;  /* Set modal width to 50% of viewport width */
+    height: 50vh !important; /* Set modal height to 50% of viewport height */
+    max-width: none !important; /* Override any max-width constraints */
+    margin: auto !important;   /* Center the modal horizontally */
+    top: 50% !important;      /* Align the modal vertically at 50% */
+    transform: translate(50%, -50%) !important;
+}
