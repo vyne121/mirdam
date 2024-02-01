@@ -83,7 +83,7 @@ const FeedbackPage = () => {
             <Container className={"p-3"}>
                 <h1 className={"text-outline-inverse h1 font-3_5vh pt-3"}>Visszajelzés</h1>
                 <Container className={"h-100"} id={"formContentContainer"}>
-                    <Form className={"font-oswald font-5vh p-3"}>
+                    <Form className={"font-oswald font-5vh p-3"} onSubmit={checkIdentifier}>
                         <FormLabel>
                             <h3 className={"h5 font-2_5vh"}>Úgy tűnik nem egy azonosító linken keresztül érkeztél az
                                 oldalra.</h3>
