@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { uploadData } from 'aws-amplify/storage';
 
 const PhotoSendPage = () => {
     const [files, setFiles] = useState([]);
@@ -46,6 +47,16 @@ const PhotoSendPage = () => {
 
             const formData = new FormData();
             formData.append("file", files);
+
+            try {
+                const result = await uploadData({
+                    key: files,
+                    data: files
+                }).result;
+                console.log('Succeeded: ', result);
+            } catch (error) {
+                console.log('Error : ', error);
+            }
 
             try {
                 throw new Error

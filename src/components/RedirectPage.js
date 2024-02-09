@@ -1,28 +1,46 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect} from "react";
+import {post} from "aws-amplify/api";
 
 
 const RedirectPage = () => {
     const navigate = useNavigate();
     const { identifier } = useParams();
+
     useEffect(() => {
-        const checkUIdEndpoint = "http://16.171.37.246:5000/check_uid?uID=" + identifier;
-        fetch(checkUIdEndpoint)
-            .then(response => response.json())
-            .then(data => {
-                if (data === true) {
-                    console.log("Valid entry: " + identifier);
-                    sessionStorage.setItem("uID", identifier);
-                } else {
-                    console.log("Invalid entry: " + identifier);
-                }
+        const fetchData = async () => {
+            try {
+                const restOperation = post({
+                    apiName: 'family',
+                    path: '/uid',
+                    options: {
+                        body: {
+                            "uid": identifier
+                        }
+                    }
+                });
+
+                const {body} = await restOperation.response;
+                const response = await body.json();
+                localStorage.setItem("uID", identifier)
+                console.log('POST call succeeded');
+                console.log(response['result']);
+            } catch (e) {
+                console.log('POST call failed: ', e);
+            } finally {
                 navigate("/feedback");
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-                navigate("/feedback");
-            });
+            }
+        };
+
+        fetchData(); // Call the async function
+
+        // Clean-up function (optional)
+        return () => {
+            // Perform clean-up tasks if necessary
+        };
     }, [identifier, navigate]);
+
+
     return (
         <>
             <div>

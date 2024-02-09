@@ -11,12 +11,13 @@ const MultiPageForm = ({user}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [successMessage, setSuccessMessage] = useState('');
     const [formRef, enableAnimations] = useAutoAnimate()
+    console.log(user.members)
     const [resp, setResp] = useState({
-            needAccommodation: false,
-            needAccommodationFor: 0,
-            identifier: user.code,
-            members: Object.fromEntries(user.members.map(member => [
-                        member.name,
+            needAccommodation: user.needAccommodation > 0,
+            needAccommodationFor: user.accommodation,
+            code: user.code,
+            members: Object.fromEntries(user.members.split(',').map(member => [
+                        member,
                         {
                             willAttend: true,
                             allergies: {
@@ -27,8 +28,8 @@ const MultiPageForm = ({user}) => {
                     ]
                 )
             ),
-            plus: Object.fromEntries(user.members.filter(member => member.plusEligible).map(member => [
-                        member.name, {
+            plus: Object.fromEntries(user.members.split(',').filter(member => user.plusEligible.includes(member)).map(member => [
+                        member, {
                             plus: false,
                             name: "",
                             allergy: "",
@@ -83,8 +84,8 @@ const MultiPageForm = ({user}) => {
     };
 
     function plusEligibleInFamily() {
-        for (let member of user.members) {
-            if (member.plusEligible && resp.members[member.name].willAttend === true) {
+        for (let member of user.members.split(',')) {
+            if (user.plusEligible.includes(member) && resp.members[member].willAttend === true) {
                 return true;
             }
         }
@@ -106,13 +107,14 @@ const MultiPageForm = ({user}) => {
             return true
         }
         if (currentPage === 2) {
-            for (let member of user.members) {
-                if (resp.members[member.name].allergies.hasSpecialNeeds && resp.members[member.name].allergies.text === "") {
+            for (let member of user.members.split(',')) {
+                if (resp.members[member].allergies.hasSpecialNeeds && resp.members[member].allergies.text === "") {
                     return false;
                 }
             }
         }
         if (currentPage === 3) {
+            console.log(resp.plus)
             for (let member in resp.plus) {
                 if (resp.plus[member].plus && resp.plus[member].name === "") {
                     return false;
@@ -170,23 +172,25 @@ const MultiPageForm = ({user}) => {
                     <Container className={"form-overflow"} id={"form-container"}>
                         {currentPage === 1 ?
                             <>
-                                {user.members.map(guest => (
-                                    <Form.Group className={"h5 font-2vh"} controlId={guest.name}>
+                            {console.log(resp)}
+                                {user.members.split(',').map(guest => (
+                                    <Form.Group className={"h5 font-2vh"} controlId={guest}>
+                                        {console.log(guest)}
                                         <Container className={"d-grid d-block"}>
                                             <Col className={"d-flex align-content-center align-items-center"}>
-                                                {guest.name}:
+                                                {guest}:
                                             </Col>
                                             <Col className={"d-flex text-center align-content-center align-items-center p-2"}>
                                                 Nem
                                                 <Form.Switch
-                                                    checked={resp.members[guest.name].willAttend}
+                                                    checked={resp.members[guest].willAttend}
                                                     onChange={(e) => {
                                                         setResp((prevResp) => {
                                                             const updatedMembers = {...prevResp.members};
-                                                            if (!updatedMembers[guest.name]) {
-                                                                updatedMembers[guest.name] = {};
+                                                            if (!updatedMembers[guest]) {
+                                                                updatedMembers[guest] = {};
                                                             }
-                                                            updatedMembers[guest.name].willAttend = e.target.checked;
+                                                            updatedMembers[guest].willAttend = e.target.checked;
                                                             return {...prevResp, members: updatedMembers};
                                                         });
                                                     }}
@@ -201,23 +205,23 @@ const MultiPageForm = ({user}) => {
                         {/*Allergies*/}
                         {currentPage === 2 ?
                             <>
-                                {user.members.map(guest => (
-                                    resp.members[guest.name].willAttend ?
-                                        <Form.Group className={"h5 font-2vh"} controlId={guest.name}>
+                                {user.members.split(',').map(guest => (
+                                    resp.members[guest].willAttend ?
+                                        <Form.Group className={"h5 font-2vh"} controlId={guest}>
                                             <Container className={"d-grid d-block"}>
                                                 <Col className={"d-flex align-content-center align-items-center"}>
-                                                    {guest.name}:
+                                                    {guest}:
                                                 </Col>
                                                 <Col
                                                     className={"d-flex text-center align-content-center align-items-center p-2"}>
                                                     Nem
                                                     <Form.Switch
-                                                        checked={resp.members[guest.name].allergies.hasSpecialNeeds}
-                                                        disabled={!resp.members[guest.name].willAttend}
+                                                        checked={resp.members[guest].allergies.hasSpecialNeeds}
+                                                        disabled={!resp.members[guest].willAttend}
                                                         onChange={(e) => {
                                                             setResp((prevResp) => {
                                                                 const updatedMembers = {...prevResp.members};
-                                                                updatedMembers[guest.name].allergies.hasSpecialNeeds = e.target.checked;
+                                                                updatedMembers[guest].allergies.hasSpecialNeeds = e.target.checked;
                                                                 console.log(updatedMembers)
                                                                 return {...prevResp, members: updatedMembers};
                                                             });
@@ -228,16 +232,16 @@ const MultiPageForm = ({user}) => {
                                                 <Col ref={formRef}
                                                      className={"d-flex text-center align-content-center align-items-center"}>
                                                     {
-                                                        isPrevChecked(guest.name)
+                                                        isPrevChecked(guest)
                                                             ? <input className="form-control font-1_5vh"
-                                                                     id={guest.name + "-allergies"}
+                                                                     id={guest + "-allergies"}
                                                                      type="text"
                                                                      placeholder={"pl. tej, húsmentes..."}
-                                                                     value={resp.members[guest.name].allergies.text}
+                                                                     value={resp.members[guest].allergies.text}
                                                                      onChange={(e) => {
                                                                          setResp((prevResp) => {
                                                                              const updatedMembers = {...prevResp.members};
-                                                                             updatedMembers[guest.name].allergies.text = e.target.value;
+                                                                             updatedMembers[guest].allergies.text = e.target.value;
                                                                              return {...prevResp, members: updatedMembers};
                                                                          });
                                                                      }}
@@ -254,23 +258,23 @@ const MultiPageForm = ({user}) => {
                         {/*Plus*/}
                         {currentPage === 3 && (
                             <>
-                                {user.members.map(guest => (
-                                    guest.plusEligible && resp.members[guest.name].willAttend === true ?
+                                {user.members.split(',').map(guest => (
+                                    user.plusEligible.includes(guest) && resp.members[guest].willAttend === true ?
                                         <Form.Group className={"h4 font-2vh"} controlId={guest.name + "-plus"}>
                                             <Col className={"d-flex align-content-center align-items-center"}>
-                                                {guest.name}:
+                                                {guest}:
                                             </Col>
                                             <Col className={"d-flex text-center align-content-center align-items-center p-2"}>
                                                 Nem
                                                 <Form.Switch
-                                                    checked={resp.plus[guest.name].plus}
+                                                    checked={resp.plus[guest].plus}
                                                     onChange={(e) => {
                                                         setResp((prevResp) => {
                                                             const updatedPlus = {...prevResp.plus};
-                                                            if (!updatedPlus[guest.name]) {
-                                                                updatedPlus[guest.name] = {};
+                                                            if (!updatedPlus[guest]) {
+                                                                updatedPlus[guest] = {};
                                                             }
-                                                            updatedPlus[guest.name].plus = e.target.checked;
+                                                            updatedPlus[guest].plus = e.target.checked;
                                                             return {...prevResp, plus: updatedPlus};
                                                         });
                                                     }}
@@ -280,17 +284,17 @@ const MultiPageForm = ({user}) => {
                                             <Col ref={formRef}
                                                  className={"d-flex text-center align-content-center align-items-center"}>
                                                 {
-                                                    isPlusChecked(guest.name)
+                                                    isPlusChecked(guest)
                                                         ? <>
                                                             <Container>Mi a neve?</Container>
                                                             <input className="form-control"
-                                                                   id={guest.name + "-plus-name"}
+                                                                   id={guest + "-plus-name"}
                                                                    type="text"
-                                                                   value={resp.plus[guest.name].name}
+                                                                   value={resp.plus[guest].name}
                                                                    onChange={(e) => {
                                                                        setResp((prevResp) => {
                                                                            const updatedPlus = {...prevResp.plus};
-                                                                           updatedPlus[guest.name].name = e.target.value;
+                                                                           updatedPlus[guest].name = e.target.value;
                                                                            return {...prevResp, plus: updatedPlus};
                                                                        });
                                                                    }}
@@ -303,18 +307,18 @@ const MultiPageForm = ({user}) => {
                                             <Col ref={formRef}
                                                  className={"d-flex text-center align-content-center align-items-center"}>
                                                 {
-                                                    isPlusChecked(guest.name)
+                                                    isPlusChecked(guest)
                                                         ? <>
                                                             <Container>Van valamilyen érzékenysége vagy speciális
                                                                 ételigénye?</Container>
                                                             <input className="form-control"
-                                                                   id={guest.name + "-plus-allergy"}
+                                                                   id={guest + "-plus-allergy"}
                                                                    type="text"
-                                                                   value={resp.plus[guest.name].allergy}
+                                                                   value={resp.plus[guest].allergy}
                                                                    onChange={(e) => {
                                                                        setResp((prevResp) => {
                                                                            const updatedPlus = {...prevResp.plus};
-                                                                           updatedPlus[guest.name].allergy = e.target.value;
+                                                                           updatedPlus[guest].allergy = e.target.value;
                                                                            return {...prevResp, plus: updatedPlus};
                                                                        });
                                                                    }}

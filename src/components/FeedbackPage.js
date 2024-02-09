@@ -2,6 +2,8 @@ import {Button, Container, Form, FormControl, FormLabel} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import MultiPageForm from "./MultiPageForm";
 import {motion} from "framer-motion";
+import {validateUID} from "../funtions/AuthUtil";
+import {post} from "aws-amplify/api";
 
 const FeedbackPage = () => {
     let [currentId, setCurrentId] = useState(sessionStorage.getItem("uID"));
@@ -17,7 +19,33 @@ const FeedbackPage = () => {
 
     function LoggedInView() {
         const [userData, setUserData] = useState(null); // Initialize userData state with null
+        useEffect(() => {
+            const fetchData = async () => {
+                try {
+                    const restOperation = post({
+                        apiName: 'family',
+                        path: '/family',
+                        options: {
+                            body: {
+                                "uid": sessionStorage.getItem("uID")
+                            }
+                        }
+                    });
+                    const {body} = await restOperation.response;
+                    const response = await body.json();
+                    setUserData(response)
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };
 
+            fetchData(); // Call the async function
+
+            // Clean-up function (optional)
+            return () => {
+                // Perform clean-up tasks if necessary
+            };
+        }, []);
         useEffect(() => {
             const currentId = sessionStorage.getItem("uID");
             const checkUIdEndpoint = "http://16.171.37.246:5000/family?uID=" + currentId;
@@ -39,7 +67,9 @@ const FeedbackPage = () => {
         }, []); // Empty dependency array ensures the effect runs only once on component mount
 
         if (!userData) {
-            return <div>Loading...</div>; // Display a loading indicator while data is being fetched
+            return <Container className={"align-content-center align-items-center p-3 h2 font-oswald"}>
+                Betöltés...
+            </Container>;
         }
 
         return (
@@ -57,26 +87,18 @@ const FeedbackPage = () => {
         const [identifierFieldValue, setIdentifierFieldValue] = useState('');
         const [errorMessage, setErrorMessage] = useState('');
 
-        function checkIdentifier() {
-            console.log(identifierFieldValue)
+        async function checkIdentifier(event) {
+            event.preventDefault()
             setErrorMessage("")
-            const checkUIdEndpoint = "http://16.171.37.246:5000/check_uid?uID=" + identifierFieldValue;
-            fetch(checkUIdEndpoint)
-                .then(response => response.json())
-                .then(data => {
-                    if (data === true) {
-                        console.log("Valid entry: " + identifierFieldValue);
-                        sessionStorage.setItem("uID", identifierFieldValue.toLowerCase());
-                        setCurrentId(identifierFieldValue.toLowerCase())
-                    } else {
-                        console.log("Invalid entry: " + identifierFieldValue);
-                        setErrorMessage("Ilyen kód nem létezik, kérlek próbáld újra! 🍆💦")
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching data:", error);
-                    setErrorMessage("Hálózati hiba történt :(")
-                });
+            console.log(identifierFieldValue)
+            if (await validateUID(identifierFieldValue)) {
+                console.log("Valid entry: " + identifierFieldValue);
+                sessionStorage.setItem("uID", identifierFieldValue.toLowerCase());
+                setCurrentId(identifierFieldValue.toLowerCase())
+            } else {
+                console.log("Invalid entry: " + identifierFieldValue);
+                setErrorMessage("Ilyen kód nem létezik, kérlek próbáld újra! 👀")
+            }
         }
 
         return (
