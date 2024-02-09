@@ -90,7 +90,6 @@ const FeedbackPage = () => {
         async function checkIdentifier(event) {
             event.preventDefault()
             setErrorMessage("")
-            console.log(identifierFieldValue)
             if (await validateUID(identifierFieldValue)) {
                 console.log("Valid entry: " + identifierFieldValue);
                 sessionStorage.setItem("uID", identifierFieldValue.toLowerCase());

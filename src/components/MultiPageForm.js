@@ -5,13 +5,13 @@ import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import {post} from "aws-amplify/api";
 
 const MultiPageForm = ({user}) => {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [successMessage, setSuccessMessage] = useState('');
     const [formRef, enableAnimations] = useAutoAnimate()
-    console.log(user.members)
     const [resp, setResp] = useState({
             needAccommodation: user.needAccommodation > 0,
             needAccommodationFor: user.accommodation,
@@ -47,6 +47,30 @@ const MultiPageForm = ({user}) => {
     ]
 
     const sendFeedback = async () => {
+        console.log(resp)
+        try {
+            const restOperation = post({
+                apiName: 'family',
+                path: '/feedback',
+                options: {
+                    body: resp
+                }
+            });
+            const {body} = await restOperation.response;
+            const response = await body.json();
+            if (response.includes("SUCCESS")) {
+                setSuccessMessage('Köszönjük a visszajelzést!');
+                setTimeout(() => {
+                    setSuccessMessage('');
+                    navigate("/");
+                }, 5000);
+            } else {
+                throw new Error('Failed to fetch data: ');
+            }
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
         try {
 
             // Make a POST request to the Flask /feedback endpoint
@@ -114,7 +138,6 @@ const MultiPageForm = ({user}) => {
             }
         }
         if (currentPage === 3) {
-            console.log(resp.plus)
             for (let member in resp.plus) {
                 if (resp.plus[member].plus && resp.plus[member].name === "") {
                     return false;
@@ -141,7 +164,6 @@ const MultiPageForm = ({user}) => {
             }
         }
         for (let member in resp.plus) {
-            console.log(member)
             if (resp.plus[member].plus) {
                 eligible++;
             }
@@ -172,10 +194,8 @@ const MultiPageForm = ({user}) => {
                     <Container className={"form-overflow"} id={"form-container"}>
                         {currentPage === 1 ?
                             <>
-                            {console.log(resp)}
                                 {user.members.split(',').map(guest => (
                                     <Form.Group className={"h5 font-2vh"} controlId={guest}>
-                                        {console.log(guest)}
                                         <Container className={"d-grid d-block"}>
                                             <Col className={"d-flex align-content-center align-items-center"}>
                                                 {guest}:
@@ -222,7 +242,6 @@ const MultiPageForm = ({user}) => {
                                                             setResp((prevResp) => {
                                                                 const updatedMembers = {...prevResp.members};
                                                                 updatedMembers[guest].allergies.hasSpecialNeeds = e.target.checked;
-                                                                console.log(updatedMembers)
                                                                 return {...prevResp, members: updatedMembers};
                                                             });
                                                         }}
