@@ -1,5 +1,5 @@
 import {Button, Container, Form, FormControl, FormLabel} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import MultiPageForm from "./MultiPageForm";
 import {motion} from "framer-motion";
 import {validateUID} from "../funtions/AuthUtil";
@@ -152,6 +152,22 @@ const FeedbackPage = () => {
                 animate={{x: 0}}
                 transition={{ease: "easeOut", duration: 1}}>
                 {
+                    sessionStorage.getItem("recentFeedback") ?
+                        <>
+                            <Container classname={"w-100 justify-content-center align-items-center pt-3 font-oswald"}>
+                                <Container>
+                                    <h2 className={"text-center align-content-center font-4vh font-oswald pt-lg-5 pb-lg-5"}>
+                                        Köszönjük a visszajelzést!
+                                    </h2>
+                                    <Container className={"text-center align-content-center font-2_5vh font-oswald pt-lg-3"}>
+                                        Ha van kedvetek küldjetek nekünk képeket és zenéket a megfelelő menük segítségével!
+                                    </Container>
+                                    <Container className={"text-center align-content-center font-2_5vh pt-3 font-oswald"}>
+                                        Az éjféli menyasszonytáncra egy-egy sorsjeggyel készüljetek! 💃🕺🏼
+                                    </Container>
+                                </Container>
+                            </Container>
+                        </> :
                     currentId
                         ? <LoggedInView/>
                         : <IdentifierView/>

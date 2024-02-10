@@ -48,6 +48,7 @@ const MultiPageForm = ({user}) => {
 
     const sendFeedback = async () => {
         console.log(resp)
+        sessionStorage.setItem("recentFeedback", true)
         try {
             const restOperation = post({
                 apiName: 'family',
