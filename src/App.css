@@ -330,6 +330,10 @@ body {
     background: #397b88 !important;
 }
 
+.customBackgroundColour3 {
+    background: #FDECEF !important;
+}
+
 .photoFrame_content {
     padding: 5%;
     color: #323232;
@@ -451,10 +455,11 @@ body {
 
 .modalMax {
     font-family: 'Oswald', sans-serif;
-    width: 50vw !important;  /* Set modal width to 50% of viewport width */
-    height: 50vh !important; /* Set modal height to 50% of viewport height */
-    max-width: none !important; /* Override any max-width constraints */
-    margin: auto !important;   /* Center the modal horizontally */
-    top: 50% !important;      /* Align the modal vertically at 50% */
-    transform: translate(50%, -50%) !important;
+    max-height: 90vh !important;
+    height: 90% !important;
+}
+
+.modal-90w {
+    max-width: 80vw !important;
+    width: 80% !important;
 }

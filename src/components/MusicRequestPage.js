@@ -1,7 +1,10 @@
-import {Button, ButtonGroup, Container, Form, Modal} from "react-bootstrap";
+import {Button, ButtonGroup, Container, Form, Image, Modal} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {motion} from "framer-motion";
+import loading from "../images/load.gif"
+
+
 
 const MusicRequestPage = () => {
     useEffect(() => {
@@ -11,7 +14,22 @@ const MusicRequestPage = () => {
             document.body.style.overflow = 'auto';
         };
     }, []);
+
+    function handleSubmitMusic(e) {
+        setMessage("")
+        e.preventDefault()
+        setTextareaValue('')
+        setDisplayLoad(true)
+        setTimeout(() => {
+            setDisplayLoad(false)
+            setMessage("Köszönjük szépen!")
+        }, 1500);
+
+    }
+
     const [textareaValue, setTextareaValue] = useState('');
+    const [message, setMessage] = useState("")
+    const [displayLoad, setDisplayLoad] = useState(false);
     return (
         <>
         <motion.Container
@@ -29,7 +47,7 @@ const MusicRequestPage = () => {
                     </h1>
 
                 </Container>
-                <Form className={"font-oswald"}>
+                <Form className={"font-oswald"} onSubmit={handleSubmitMusic}>
                     <Container className={"pt-4"}>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Label>
@@ -37,7 +55,7 @@ const MusicRequestPage = () => {
                                     A dal előadója és címe:
                                 </h4>
                                 <h7 className={"text-white text-outline-inverse font-oswald "}>
-                                    (Több dal is megadható egyszerre)
+                                    (Több dal is megadható egyszerre. Írd külön sorba, vagy válaszd el vesszővel!)
                                 </h7>
                             </Form.Label>
                             <Form.Control id={"songLink"} value={textareaValue}
@@ -45,12 +63,31 @@ const MusicRequestPage = () => {
                         </Form.Group>
                         <ButtonGroup>
                             <Button disabled={!textareaValue}
+                                    onClick={handleSubmitMusic}
                                     className={"customButtonColour border-black text-light"}>Küldés</Button>
                             <Button className={"customButtonColour border-black text-light"}>
                                 <Link className={"text-decoration-none text-light"} to={"/"}>
                                     Vissza
                                 </Link>
                             </Button>
+                        {
+                            message ?
+                                <>
+                                    <Container className={"h5"}>{message}</Container>
+                            </>
+                                : <>
+                                </>
+                        }
+                            {
+                                displayLoad ?
+                                    <>
+                                        <Image
+                                            style={{height: '3vh', width: "3vw"}}
+                                            src={loading}/>
+                                    </>
+                                    : <>
+                                    </>
+                            }
                         </ButtonGroup>
                     </Container>
                 </Form>

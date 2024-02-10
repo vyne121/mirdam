@@ -63,7 +63,7 @@ const MultiPageForm = ({user}) => {
                 setTimeout(() => {
                     setSuccessMessage('');
                     navigate("/");
-                }, 5000);
+                }, 10000);
             } else {
                 throw new Error('Failed to fetch data: ');
             }
@@ -182,8 +182,11 @@ const MultiPageForm = ({user}) => {
                                 <h2 className={"text-center align-content-center font-4vh"}>
                                     {successMessage}
                                 </h2>
-                                <Container className={"text-center align-content-center font-2vh"}>
+                                <Container className={"text-center align-content-center font-2_5vh"}>
                                     Ha van kedvetek küldjetek nekünk képeket és zenéket a megfelelő menük segitségével!
+                                </Container>
+                                <Container className={"text-center align-content-center font-2_5vh pt-3"}>
+                                    Az éjféli menyasszonytáncra egy-egy sorsjeggyel készüljetek! 💃🕺🏼
                                 </Container>
                             </Container>
                         </Container>

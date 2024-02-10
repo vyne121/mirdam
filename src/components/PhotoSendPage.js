@@ -10,8 +10,7 @@ const PhotoSendPage = () => {
     const [files, setFiles] = useState([]);
     const [error, setError] = useState("");
     const [imagePreviews, setImagePreviews] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    let [currSelected, setCurrentlySelected] = useState(3)
+    let [currSelected, setCurrentlySelected] = useState(0)
     const [selectedFile, setSelectedFile] = useState(null)
 
     useEffect(() => {
@@ -83,77 +82,12 @@ const PhotoSendPage = () => {
         }
     }
 
-    function handlePictureClick(e) {
-        console.log(e.target.getAttribute("index"))
-        setCurrentlySelected(e.target.getAttribute("index"))
-        setSelectedFile(imagePreviews[currSelected])
-        setShowModal(true)
-    }
 
-    function handleModalClose() {
-        setShowModal(false)
-    }
 
-    function handleModalLeft() {
-        if(currSelected !== 0) {
-            setCurrentlySelected(currSelected--)
-            setSelectedFile(imagePreviews[currSelected])
-        }
-    }
 
-    function handleModalRight() {
-        if(currSelected !== imagePreviews.length) {
-            setCurrentlySelected(currSelected++)
-            setSelectedFile(imagePreviews[currSelected])
-        }
-    }
 
     return (
         <>
-            <Modal className={"modalMax"} show={showModal} onHide={handleModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Kép előnézet</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className={"w-100"}>
-                    {currSelected}/{imagePreviews.length}
-                    {files.length > 1
-                        ?
-                        <Container>
-                            <Button onClick={handleModalLeft} disabled={currSelected === 0}>
-                                LEFT
-                            </Button>
-                        </Container>
-                        : <></>}
-                    <Container className={"flex-fill"}>
-                        <Image
-                            className={"flex-fill"}
-                            thumbnail
-                            src={selectedFile}
-                            alt={`Preview`}
-                            style={{width: '90%', height: '90%', objectFit: 'cover'}}>
-                        </Image>
-                    </Container>
-                    {files.length > 1
-                        ?
-                        <Container>
-                            <Button
-                                onClick={handleModalRight}
-                                disabled={currSelected === imagePreviews.length - 1}
-                            >Right</Button>
-                        </Container>
-                        : <></>}
-                    <Container>
-
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary"
-                            onClick={handleModalClose}
-                    >
-                        Bezár
-                    </Button>
-                </Modal.Footer>
-            </Modal>
             <motion.Container
                 fluid
                 className={"customBackgroundColour2 patternBack2 d-flex flex-column justify-content-center align-items-center"}
@@ -162,7 +96,7 @@ const PhotoSendPage = () => {
                 animate={{x: "0%", transition: {duration: 0.5}}}
                 exit={{x: "100%", transition: {duration: 0.5}}}
             >
-                <Container className={"pill-card2 shadow-lg"}>
+                <Container className={"pill-card2 w-50 h-75 shadow-lg"}>
                     <Container className={"container pt-3"}>
                         <h1 className={"text-white text-outline-inverse font-oswald"}>
                             Küldjetek képeket velünk/rólunk, amikhez szép emlékeitek fűződnek!
@@ -217,9 +151,8 @@ const PhotoSendPage = () => {
                                                     thumbnail
                                                     src={preview}
                                                     index={index}
-                                                    alt={`Preview ${index}`}
+                                                    alt={`Előnézet ${index+1}`}
                                                     style={{width: '100%', height: '100%', objectFit: 'cover'}}
-                                                    onClick={handlePictureClick}
                                                 />
                                             </Container>
 
