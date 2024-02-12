@@ -22,7 +22,7 @@ const MusicRequestPage = () => {
         setDisplayLoad(true)
         setTimeout(() => {
             setDisplayLoad(false)
-            setMessage("Köszönjük szépen!")
+            setMessage("Köszönjük szépen az elküldött dalokat!")
         }, 1500);
 
     }
@@ -55,7 +55,7 @@ const MusicRequestPage = () => {
                                     A dal előadója és címe:
                                 </h4>
                                 <h7 className={"text-white text-outline-inverse font-oswald "}>
-                                    (Több dal is megadható egyszerre. Írd külön sorba, vagy válaszd el vesszővel!)
+                                    A dalok megadhatóak link formában is, de az is elég, ha a dal cimét és előadóját irjátok le. Több dal is megadható egyszerre, ebben az esetben kérünk ird külön sorba, vagy válaszd el vesszővel!
                                 </h7>
                             </Form.Label>
                             <Form.Control id={"songLink"} value={textareaValue}
