@@ -20,68 +20,6 @@ const PhotoSendPage = () => {
             document.body.style.overflow = 'auto';
         };
     }, []);
-
-    function handleFileChange(e) {
-        const files = Array.from(e.target.files);
-        setImagePreviews([]);
-
-        files.forEach((file) => {
-            const reader = new FileReader();
-
-            reader.onloadend = () => {
-                // Create image preview
-                setImagePreviews((prevPreviews) => [...prevPreviews, reader.result]);
-            };
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        });
-        setFiles(e.target.files);
-    }
-
-    const handleFileUpload = async () => {
-        if (files) {
-            console.log("Uploading file...");
-
-            const formData = new FormData();
-            formData.append("file", files);
-
-            try {
-                const result = await uploadData({
-                    key: files,
-                    data: files
-                }).result;
-                console.log('Succeeded: ', result);
-            } catch (error) {
-                console.log('Error : ', error);
-            }
-
-            try {
-                throw new Error
-                // You can write the URL of your server or any other endpoint used for file upload
-                const result = await fetch("https://httpbin.org/post", {
-                    method: "POST",
-                    body: formData,
-                });
-
-                const data = await result.json();
-
-                console.log(data);
-            } catch (error) {
-                setError({
-                    msg: "A manóba! Valami baj történt feltöltés közben!",
-                    type: "error",
-                    icon: <FontAwesomeIcon icon={icon({name: 'sad-tear'})}/>
-                })
-                setTimeout(() => {
-                    setError(null);
-                }, 5000);
-                console.error(error);
-            }
-        }
-    }
-
     function navigateToUploadLink() {
         let url = sessionStorage.getItem("driveLink");
         if (!url) {
@@ -98,6 +36,19 @@ const PhotoSendPage = () => {
         }
         window.open(url, '_blank');
     }
+
+    const openLinkInNewTab = () => {
+        try {
+            window.open(sessionStorage.getItem("driveLink"), '_blank');
+        } catch (error) {
+            console.error("Error opening link:", error);
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.getElementById('openLinkButton');
+        button.addEventListener('click', openLinkInNewTab);
+    });
 
     return (
         <>
@@ -157,6 +108,7 @@ const PhotoSendPage = () => {
                                            className={"d-flex flex-column justify-content-center align-content-center align-items-baseline"}>
                                     <Button className={"btn-lg btn-info pb-3 font-2vh"}
                                             onClick={navigateToUploadLink}
+                                            id={"openLinkButton"}
                                     >
                                         KÉP FELTÖLTÉS
                                     </Button>
