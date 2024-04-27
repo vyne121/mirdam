@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { uploadData } from 'aws-amplify/storage';
+import {uploadData} from 'aws-amplify/storage';
 
 const PhotoSendPage = () => {
     const [files, setFiles] = useState([]);
@@ -82,9 +82,22 @@ const PhotoSendPage = () => {
         }
     }
 
-
-
-
+    function navigateToUploadLink() {
+        let url = sessionStorage.getItem("driveLink");
+        if (!url) {
+            setError({
+                msg: "A manóba! A link valamiért elromlott. Szólj nekünk és megpróbáljuk megoldani a problémát!" ,
+                type: "error",
+                icon: <FontAwesomeIcon icon={icon({name: 'sad-tear'})}/>
+            })
+            setTimeout(() => {
+                setError(null);
+            }, 3000);
+            console.error("OneDrive link is invalid")
+            return;
+        }
+        window.open(url, '_blank');
+    }
 
     return (
         <>
@@ -106,30 +119,11 @@ const PhotoSendPage = () => {
                         <Container className={"pt-4"}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>
-                                    <Container>
-                                        <h5>
+                                    <Container className={"pb-3"}>
+                                        <h5 className={"font-2_5vh"}>
                                             A küldött fotókból válogatva az esküvőn vetíteni fogunk
                                         </h5>
                                     </Container>
-                                    <Form.Group controlId="formFileLg" className="mb-3">
-                                        <Form.Label>Képek feltöltése:</Form.Label>
-                                        {error ? <Container
-                                                className={"text-info"}
-                                                id={"errorContainer"}>
-                                                <h3 className={error.type === "error" ? "h3 font-1_5vh text-outline text-light" : "h3 font-1_5vh text-outline-inverse text-success"}>
-                                                    {error.msg}
-                                                    {error.icon}
-                                                </h3>
-                                            </Container>
-                                            : <></>}
-                                        <Form.Control
-                                            onChange={handleFileChange}
-                                            type="file"
-                                            size="lg"
-                                            accept={"image/*"}
-                                            multiple
-                                        />
-                                    </Form.Group>
                                 </Form.Label>
                                 <Container
                                     flex
@@ -151,7 +145,7 @@ const PhotoSendPage = () => {
                                                     thumbnail
                                                     src={preview}
                                                     index={index}
-                                                    alt={`Előnézet ${index+1}`}
+                                                    alt={`Előnézet ${index + 1}`}
                                                     style={{width: '100%', height: '100%', objectFit: 'cover'}}
                                                 />
                                             </Container>
@@ -159,22 +153,27 @@ const PhotoSendPage = () => {
                                         ))}
                                     </Container>
                                 </Container>
+                                <Container fluid={"xl"}
+                                           className={"d-flex flex-column justify-content-center align-content-center align-items-baseline"}>
+                                    <Button className={"btn-lg btn-info pb-3 font-2vh"}
+                                            onClick={navigateToUploadLink}
+                                    >
+                                        KÉP FELTÖLTÉS
+                                    </Button>
+                                    {error ? <Container
+                                            className={"text-info"}
+                                            id={"errorContainer"}>
+                                            <h3 className={error.type === "error" ? "h3 font-1_5vh text-outline text-light" : "h3 font-1_5vh text-outline-inverse text-success"}>
+                                                {error.msg}
+                                                {error.icon}
+                                            </h3>
+                                        </Container>
+                                        : <></>}
+                                    <Form.Group controlId="formFileLg" className="mb-3">
+                                    </Form.Group>
+                                </Container>
 
                             </Form.Group>
-                            <ButtonGroup>
-                                <Button
-                                    disabled={!files}
-                                    className={"customButtonColour border-black text-light"}
-                                    onClick={handleFileUpload}
-                                >
-                                    Feltöltés
-                                </Button>
-                                <Button className={"customButtonColour border-black text-light"}>
-                                    <Link className={"text-decoration-none text-light"} to={"/"}>
-                                        Vissza
-                                    </Link>
-                                </Button>
-                            </ButtonGroup>
                         </Container>
                     </Form>
                 </Container>

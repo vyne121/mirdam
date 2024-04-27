@@ -34,16 +34,15 @@ const FeedbackPage = () => {
                     const {body} = await restOperation.response;
                     const response = await body.json();
                     setUserData(response)
+                    sessionStorage.setItem("driveLink", response["driveLink"])
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
             };
 
-            fetchData(); // Call the async function
+            fetchData();
 
-            // Clean-up function (optional)
             return () => {
-                // Perform clean-up tasks if necessary
             };
         }, []);
         useEffect(() => {

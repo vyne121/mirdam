@@ -23,6 +23,7 @@ const RedirectPage = () => {
                 const {body} = await restOperation.response;
                 const response = await body.json();
                 sessionStorage.setItem("uID", identifier)
+                
                 console.log('POST call succeeded');
                 console.log(response['result']);
             } catch (e) {
